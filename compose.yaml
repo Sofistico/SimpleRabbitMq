@@ -1,0 +1,31 @@
+version: "3.2"
+
+services:
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    container_name: 'rabbitmq'
+    ports:
+      - 5671:5671      # RabbitMQ SSL port (optional)
+      - 5672:5672      # RabbitMQ non-SSL port
+      - 15672:15672    # RabbitMQ Management HTTP port
+    volumes:
+      - ~/.docker-conf/rabbitmq/data/:/var/lib/rabbitmq/
+      - ~/.docker-conf/rabbitmq/log/:/var/log/rabbitmq
+    networks:
+      - rabbitmq_net
+
+  api:
+    build:
+      context: .
+      target: final
+    ports:
+      - 8080:80       # HTTP port
+    environment:
+      ASPNETCORE_URLS: "http://+:80"
+    networks:
+      - rabbitmq_net
+
+networks:
+  rabbitmq_net:
+    driver: bridge
+

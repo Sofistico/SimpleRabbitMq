@@ -1,0 +1,11 @@
+@SimpleRabbitMq.Api_HostAddress = http://localhost:5082
+
+GET {{SimpleRabbitMq.Api_HostAddress}}/todos/
+Accept: application/json
+
+###
+
+GET {{SimpleRabbitMq.Api_HostAddress}}/todos/1
+Accept: application/json
+
+###
